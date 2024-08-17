@@ -8,8 +8,8 @@
 import UIKit
 import Firebase
 class ViewController: UIViewController {
-    let Signbutton = UIButton()
-    let Createaccount = UIButton()
+    let LoginButton = UIButton()
+    let CreateaccountButton = UIButton()
     let stackView = UIStackView()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,28 +17,28 @@ class ViewController: UIViewController {
         self.title = "test"
         stackView.axis = .vertical
         view.backgroundColor = .white
-        Signbutton.setTitle("ログイン", for: UIControl.State.normal)
-        Signbutton.setTitleColor(.black, for: .normal)
-        Createaccount.setTitle("アカウント作成", for: UIControl.State.normal)
-        Createaccount.setTitleColor(.black, for: .normal)
-        Signbutton.addTarget(self, action: #selector(SignButtonTapped), for: .touchUpInside)
-        Createaccount.addTarget(self, action: #selector(Create_accontButtonTapped), for: .touchUpInside)
-        stackView.addArrangedSubview(Signbutton)
-        stackView.addArrangedSubview(Createaccount)
+        LoginButton.setTitle("ログイン", for: UIControl.State.normal)
+        LoginButton.setTitleColor(.black, for: .normal)
+        CreateaccountButton.setTitle("アカウント作成", for: UIControl.State.normal)
+        CreateaccountButton.setTitleColor(.black, for: .normal)
+        LoginButton.addTarget(self, action: #selector(LoginButtonTapped), for: .touchUpInside)
+        CreateaccountButton.addTarget(self, action: #selector(CreateaccountButtonTapped), for: .touchUpInside)
+        stackView.addArrangedSubview(LoginButton)
+        stackView.addArrangedSubview(CreateaccountButton)
         view.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ])
     }
-    @objc func SignButtonTapped() {
+    @objc func LoginButtonTapped() {
         let LoginViewController = LoginViewController() // 遷移先のViewController
         self.navigationController?.pushViewController(LoginViewController, animated: true)
     }
-    @objc func Create_accontButtonTapped() {
-        let Createaccount = Create_userViewController() // 遷移先のViewController
+    @objc func CreateaccountButtonTapped() {
+        let Createaccount = Create_accountViewcontroller()// 遷移先のViewController
         self.navigationController?.pushViewController(Createaccount, animated: true)
     }
 
