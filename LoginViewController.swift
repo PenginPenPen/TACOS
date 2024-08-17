@@ -6,10 +6,10 @@
 //
 
 import UIKit
-import FirebaseAuth
-import FirebaseUI
+//import FirebaseAuth
+//import FirebaseUI
 
-class LoginViewController: UIViewController, FUIAuthDelegate {
+class LoginViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
