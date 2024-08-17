@@ -6,13 +6,18 @@
 //
 
 import UIKit
-//import FirebaseAuth
+import FirebaseAuth
 //import FirebaseUI
 
 class LoginViewController: UIViewController{
     
+
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
+        self.title="ログイン画面"
         
     }
 }
