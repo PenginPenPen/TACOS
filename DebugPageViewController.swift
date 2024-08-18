@@ -7,9 +7,10 @@
 
 import UIKit
 import Firebase
-class ViewController: UIViewController {
+class DebugPageViewController: UIViewController {
     let LoginButton = UIButton()
     let CreateaccountButton = UIButton()
+    let TimelineButton = UIButton()
     let stackView = UIStackView()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,8 +24,12 @@ class ViewController: UIViewController {
         CreateaccountButton.setTitleColor(.black, for: .normal)
         LoginButton.addTarget(self, action: #selector(LoginButtonTapped), for: .touchUpInside)
         CreateaccountButton.addTarget(self, action: #selector(CreateaccountButtonTapped), for: .touchUpInside)
+        TimelineButton.setTitle("タイムライン", for: UIControl.State.normal)
+        TimelineButton.setTitleColor(.black, for: .normal)
+        TimelineButton.addTarget(self, action: #selector(TimelineButtonTapped), for: .touchUpInside)
         stackView.addArrangedSubview(LoginButton)
         stackView.addArrangedSubview(CreateaccountButton)
+        stackView.addArrangedSubview(TimelineButton)
         view.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -38,8 +43,12 @@ class ViewController: UIViewController {
         self.navigationController?.pushViewController(LoginViewController, animated: true)
     }
     @objc func CreateaccountButtonTapped() {
-        let Createaccount = Create_accountViewcontroller()// 遷移先のViewController
+        let Createaccount = CreateAccountViewcontroller()// 遷移先のViewController
         self.navigationController?.pushViewController(Createaccount, animated: true)
+    }
+    @objc func TimelineButtonTapped(){
+        let TimeLine = TimelineViewController()
+        self.navigationController?.pushViewController(TimeLine, animated: true)
     }
 
 }
