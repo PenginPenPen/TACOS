@@ -10,26 +10,42 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseAuth
 class Create_accountViewcontroller: UIViewController {
-    let CreateAccont = UIButton()
+    private let usernamePasswordStackView = UIStackView()
+    private let createAccountButton = UIButton()
+    private let messageLabel = UILabel()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        self.title="アカウント作成画面"
-        CreateAccont.setTitle("アカウント作成", for: UIControl.State.normal)
-        CreateAccont.setTitleColor(.black, for: .normal)
-        CreateAccont.addTarget(self, action: #selector(CreateAccontButtonTapped), for: .touchUpInside)
-        view.addSubview(CreateAccont)
-        CreateAccont.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            CreateAccont.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            CreateAccont.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            CreateAccont.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            CreateAccont.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-       
-        // Do any additional setup after loading the view.
+        setupView()
+        setupStackView()
+        setupButton()
+        setupConstraints()
     }
-    
+    private func setupView(){
+        self.title="アカウント作成画面"
+        view.backgroundColor =  UIColor(red: 0.98, green: 1.00, blue: 0.25, alpha: 1.0)
+    }
+    private func setupStackView() {
+        usernamePasswordStackView.axis = .horizontal
+        usernamePasswordStackView.distribution = .fillProportionally
+        usernamePasswordStackView.alignment = .center
+        view.addSubview(usernamePasswordStackView)
+    }
+    private func setupButton(){
+        createAccountButton.setTitle("アカウント作成", for: UIControl.State.normal)
+        createAccountButton.setTitleColor(.black, for: .normal)
+        createAccountButton.addTarget(self, action: #selector(CreateAccontButtonTapped), for: .touchUpInside)
+        usernamePasswordStackView.addArrangedSubview(createAccountButton)
+        
+    }
+    private func setupConstraints() {
+        usernamePasswordStackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([usernamePasswordStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+                                     usernamePasswordStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+                                     usernamePasswordStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                                     usernamePasswordStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+                                    ])
+    }
     
     @objc func CreateAccontButtonTapped() {
         print("成功！")
@@ -41,8 +57,6 @@ class Create_accountViewcontroller: UIViewController {
         }
         }
     }
-    
-
     /*
     // MARK: - Navigation
 
@@ -54,3 +68,7 @@ class Create_accountViewcontroller: UIViewController {
     */
 
 }
+#Preview{
+    Create_accountViewcontroller()
+}
+
