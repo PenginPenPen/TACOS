@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.title = "test"
+        self.title = "デバッグ"
         stackView.axis = .vertical
         view.backgroundColor = .white
         LoginButton.setTitle("ログイン", for: UIControl.State.normal)
