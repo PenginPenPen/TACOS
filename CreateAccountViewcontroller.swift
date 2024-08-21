@@ -10,19 +10,22 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseAuth
 class CreateAccountViewcontroller: UIViewController {
-    private let emailPasswordStackView = UIStackView()
+    private let formStackView = UIStackView()
     private let createAccountButton = UIButton()
     private let messageLabel = UILabel()
     private let emailField = UITextField()
     private let passwordField = UITextField()
     private let forgotPassword = UIButton()
     private let transitionLogin = UIButton()
+    private let logolabel = UILabel()
+    var AccentColor=UIColor(red: 0.98, green: 1.00, blue: 0.25, alpha: 1.0)
 //    var Email = String()
 //    var Passward = String()
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         setupStackView()
+        setupLogolabel()
         setupTextField()
         setupButton()
         setupConstraints()
@@ -30,43 +33,61 @@ class CreateAccountViewcontroller: UIViewController {
         
     }
     private func setupView(){
-        self.title="アカウント作成画面"
-        view.backgroundColor =  UIColor(red: 0.98, green: 1.00, blue: 0.25, alpha: 1.0)
+//        self.title="アカウント作成画面"
+        view.backgroundColor = AccentColor
+    }
+    private func setupLogolabel() {
+        logolabel.text = "WELCOME"
+        logolabel.font = UIFont(name: "Impact", size: 48)
+        logolabel.textColor = .black
+        logolabel.textAlignment = .center
+        formStackView.addArrangedSubview(logolabel)
     }
     private func setupStackView() {
-        emailPasswordStackView.axis = .vertical
-        emailPasswordStackView.distribution = .fillProportionally
-        emailPasswordStackView.alignment = .center
-        view.addSubview(emailPasswordStackView)
+        formStackView.axis = .vertical
+        formStackView.spacing = 20
+        formStackView.distribution = .fill
+//        formStackView.alignment = .center
+        view.addSubview(formStackView)
     }
     private func setupButton(){
         createAccountButton.setTitle("アカウント作成", for: UIControl.State.normal)
+        createAccountButton.titleLabel?.font = UIFont(name: "Impact", size: 14)
         createAccountButton.backgroundColor = .black
         createAccountButton.setTitleColor(UIColor(red: 0.98, green: 1.00, blue: 0.25, alpha: 1.0), for: .normal)
-        createAccountButton.layer.cornerRadius = 20
+        createAccountButton.layer.cornerRadius = 35
         createAccountButton.addTarget(self, action: #selector(CreateAccontButtonTapped), for: .touchUpInside)
-        emailPasswordStackView.addArrangedSubview(createAccountButton)
+        formStackView.addArrangedSubview(createAccountButton)
         
     }
     private func setupConstraints() {
-        emailPasswordStackView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([emailPasswordStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                                     emailPasswordStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-                                     emailPasswordStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                                     emailPasswordStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        formStackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([formStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+                                     formStackView.leadingAnchor.constraint(equalTo:view.leadingAnchor, constant: 20),
+                                     formStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+                                     formStackView.bottomAnchor.constraint(equalTo:view.safeAreaLayoutGuide.bottomAnchor, constant:-20),
+                                     logolabel.heightAnchor.constraint(equalToConstant: 200),
+                                     emailField.heightAnchor.constraint(equalToConstant: 70),
+                                     passwordField.heightAnchor.constraint(equalToConstant: 70),
+                                     createAccountButton.heightAnchor.constraint(equalToConstant: 70)
                                     ])
     }
     private func setupTextField() {
         emailField.placeholder = "メールアドレスをここに入力"
         emailField.borderStyle = .roundedRect
         emailField.textContentType = .emailAddress
-        emailPasswordStackView.addArrangedSubview(emailField)
+        emailField.layer.cornerRadius = 25
+        emailField.borderStyle = .none
+        emailField.backgroundColor = AccentColor
+        formStackView.addArrangedSubview(emailField)
         
         passwordField.placeholder = "ここにパスワードを入力"
         passwordField.borderStyle = .roundedRect
         passwordField.textContentType = .password
+        passwordField.layer.cornerRadius  = 25
         passwordField.isSecureTextEntry = true
-        emailPasswordStackView.addArrangedSubview(passwordField)
+        passwordField.borderStyle = .none
+        formStackView.addArrangedSubview(passwordField)
     }
 
     private func getLoginCredentials() -> (email: String, password: String)? {
@@ -85,7 +106,7 @@ class CreateAccountViewcontroller: UIViewController {
     private func setupTransitionLoginButton(){
         transitionLogin.setTitle("ログインはこちら", for: UIControl.State.normal)
         transitionLogin.setTitleColor(.black, for: .normal)
-        emailPasswordStackView.addArrangedSubview(transitionLogin)
+        formStackView.addArrangedSubview(transitionLogin)
         transitionLogin.addTarget(self, action: #selector(TransitionLoginButtonTapped), for: .touchUpInside)
     }
     @objc func CreateAccontButtonTapped() {
