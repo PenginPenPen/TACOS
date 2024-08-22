@@ -7,11 +7,14 @@
 
 import UIKit
 import Firebase
+import FirebaseFirestore
 class DebugPageViewController: UIViewController {
     let LoginButton = UIButton()
     let CreateaccountButton = UIButton()
     let TimelineButton = UIButton()
+    let AddPostButton = UIButton()
     let stackView = UIStackView()
+    var db = Firestore.firestore()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -27,9 +30,15 @@ class DebugPageViewController: UIViewController {
         TimelineButton.setTitle("タイムライン", for: UIControl.State.normal)
         TimelineButton.setTitleColor(.black, for: .normal)
         TimelineButton.addTarget(self, action: #selector(TimelineButtonTapped), for: .touchUpInside)
+        
+        AddPostButton.setTitle("投稿", for: UIControl.State.normal)
+        AddPostButton.setTitleColor(.black, for: .normal)
+        AddPostButton.addTarget(self, action: #selector(AddPostButtonTapped), for: .touchUpInside)
+
         stackView.addArrangedSubview(LoginButton)
         stackView.addArrangedSubview(CreateaccountButton)
         stackView.addArrangedSubview(TimelineButton)
+        stackView.addArrangedSubview(AddPostButton)
         view.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -50,6 +59,14 @@ class DebugPageViewController: UIViewController {
         let TimeLine = TimelineViewController()
         self.navigationController?.pushViewController(TimeLine, animated: true)
     }
+    @objc func AddPostButtonTapped(){
+        let uuid = UUID()
+        db.collection("Post").document().setData([
+                    "date": Date(),
+                    "userId": uuid.uuidString,
+                    "username": "TestUser" + uuid.uuidString,
+                    "text": "Welcome to TACOS!!!"
+        ])
+    }
 
 }
-
