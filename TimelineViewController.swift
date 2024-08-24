@@ -42,7 +42,8 @@ class TimelineViewController: UIViewController {
         //        } catch {
         //            print("Error getting document: \(error)")
         //        }
-        db.collection("Post").getDocuments { (querySnapshot, error) in
+        db.collection("Post").order(by: "date", descending: true)
+            .getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("投稿の取得に失敗しました。: \(error)")
                 return // エラー発生時は処理を中断
@@ -65,7 +66,7 @@ class TimelineViewController: UIViewController {
                 let userid = data["userId"] as? String
                 let username = data["username"] as? String
                 
-                print(date,text,userid,username)
+//                print(date,text,userid,username)
                 let postView = self.createPostView(postText: text ?? self.defaultText,userId:userid ?? self.defaultText,userName:username ?? self.defaultText)
                 self.postStackView.addArrangedSubview(postView)
             }
