@@ -13,7 +13,8 @@ class UserProfileViewController: UIViewController {
     var db = Firestore.firestore()
     var created_date:Date?
     var displayName:String?
-    private let CreatedDate = UIDatePicker()
+    let df = DateFormatter()
+    private let CreatedDate = UILabel()
     private let DisplayName = UILabel()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,11 +34,12 @@ class UserProfileViewController: UIViewController {
         userRef.getDocument { (document, error) in
           if let document = document, document.exists {
               let data = document.data()
+              self.df.dateFormat = "yyyy-MM-dd HH:mm:ss"
               let date_timestamp = data?["createdAt"] as! Timestamp
               self.created_date = date_timestamp.dateValue()
               self.displayName = data?["displayName"] as? String
               self.DisplayName.text = self.displayName
-              self.CreatedDate.date = self.created_date ?? Date.now
+              self.CreatedDate.text = self.df.string(from: self.created_date ?? Date.now)
           } else {
             print("Document does not exist")
           }
@@ -46,6 +48,7 @@ class UserProfileViewController: UIViewController {
     private func setupLabels(){
         DisplayName.textColor = .black
         DisplayName.translatesAutoresizingMaskIntoConstraints = false
+        CreatedDate.textColor = .black
         CreatedDate.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(DisplayName)
         view.addSubview(CreatedDate)
