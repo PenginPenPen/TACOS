@@ -64,7 +64,7 @@ class DebugPageViewController: UIViewController {
         db.collection("Post").document().setData([
                     "date": Date(),
                     "userId": uuid.uuidString,
-                    "username": "TestUser" + uuid.uuidString,
+                    "username": "TestUser\(Int.random(in: 1000..<5000))",
                     "text": "Welcome to TACOS!!!"
         ])
     }

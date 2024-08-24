@@ -97,34 +97,72 @@ class TimelineViewController: UIViewController {
         postStackView.distribution = .fillEqually
         postStackView.alignment = .fill
     }
-    private func createPostView(postText: String,userId:String,userName:String) -> UIView {
-        //投稿日時を追加する
-        let postView = UIView()
-        postView.backgroundColor = .systemBackground
-        
-        let PostText = UILabel()
-        PostText.text = postText
-        
-        let UserId = UILabel()
-        UserId.text = userId
-        
-        let button = UIButton(type: .system)
-        button.setTitle("like", for: .normal)
 
-        postView.addSubview(PostText)
-        postView.addSubview(button)
+    private func createPostView(postText: String, userId: String, userName: String) -> UIView {
+        let postView = UIView()
+        postView.backgroundColor = UIColor(red: 0.16, green: 0.16, blue: 0.16, alpha: 1.0) // #2A2A2A
+//        postView.layer.cornerRadius = 15
         
-        PostText.translatesAutoresizingMaskIntoConstraints = false
-        button.translatesAutoresizingMaskIntoConstraints = false
+        let userIconImageView = UIImageView(image: UIImage(named: "defaultUserIcon"))
+        userIconImageView.contentMode = .scaleAspectFill
+        userIconImageView.layer.cornerRadius = 20
+        userIconImageView.clipsToBounds = true
+        
+        let userNameLabel = UILabel()
+        userNameLabel.text = userName
+        userNameLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        userNameLabel.textColor = .white
+        
+        let userIdLabel = UILabel()
+        userIdLabel.text = "@\(userId)"
+        userIdLabel.font = UIFont.systemFont(ofSize: 12)
+        userIdLabel.textColor = UIColor(white: 0.6, alpha: 1.0)
+        
+        let postTimeLabel = UILabel()
+        postTimeLabel.text = "1秒前"
+        postTimeLabel.font = UIFont.systemFont(ofSize: 12)
+        postTimeLabel.textColor = UIColor(white: 0.6, alpha: 1.0)
+        
+        let postTextLabel = UILabel()
+        postTextLabel.text = postText
+        postTextLabel.font = UIFont.systemFont(ofSize: 14)
+        postTextLabel.textColor = UIColor(red: 1.0, green: 1.0, blue: 0.6, alpha: 1.0) // #FFFF99
+        postTextLabel.numberOfLines = 0
+
+
+        
+        postView.addSubview(userIconImageView)
+        postView.addSubview(userNameLabel)
+        postView.addSubview(userIdLabel)
+        postView.addSubview(postTimeLabel)
+        postView.addSubview(postTextLabel)
+        
+        userIconImageView.translatesAutoresizingMaskIntoConstraints = false
+        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        userIdLabel.translatesAutoresizingMaskIntoConstraints = false
+        postTimeLabel.translatesAutoresizingMaskIntoConstraints = false
+        postTextLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            postView.heightAnchor.constraint(equalToConstant: 100),
+            postView.heightAnchor.constraint(greaterThanOrEqualToConstant: 100),
             
-            PostText.topAnchor.constraint(equalTo: postView.topAnchor, constant: 8),
-            PostText.leadingAnchor.constraint(equalTo: postView.leadingAnchor, constant: 8),
+            userIconImageView.topAnchor.constraint(equalTo: postView.topAnchor, constant: 15),
+            userIconImageView.leadingAnchor.constraint(equalTo: postView.leadingAnchor, constant: 15),
+            userIconImageView.widthAnchor.constraint(equalToConstant: 40),
+            userIconImageView.heightAnchor.constraint(equalToConstant: 40),
             
-            button.topAnchor.constraint(equalTo: PostText.bottomAnchor, constant: 8),
-            button.leadingAnchor.constraint(equalTo: postView.leadingAnchor, constant: 8)
+            userNameLabel.topAnchor.constraint(equalTo: postView.topAnchor, constant: 15),
+            userNameLabel.leadingAnchor.constraint(equalTo: userIconImageView.trailingAnchor, constant: 10),
+            
+            userIdLabel.topAnchor.constraint(equalTo: userNameLabel.topAnchor),
+            userIdLabel.leadingAnchor.constraint(equalTo: userNameLabel.trailingAnchor, constant: 5),
+            
+            postTimeLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 2),
+            postTimeLabel.leadingAnchor.constraint(equalTo: userIconImageView.trailingAnchor, constant: 10),
+            
+            postTextLabel.topAnchor.constraint(equalTo: postTimeLabel.bottomAnchor, constant: 10),
+            postTextLabel.leadingAnchor.constraint(equalTo: postView.leadingAnchor, constant: 15),
+            postTextLabel.trailingAnchor.constraint(equalTo: postView.trailingAnchor, constant: -15),
         ])
         
         return postView
