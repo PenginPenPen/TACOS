@@ -8,65 +8,106 @@
 import UIKit
 import Firebase
 import FirebaseFirestore
+import FirebaseAuth
 class DebugPageViewController: UIViewController {
-    let LoginButton = UIButton()
-    let CreateaccountButton = UIButton()
-    let TimelineButton = UIButton()
-    let AddPostButton = UIButton()
+    let loginButton = UIButton()
+    let createAccountButton = UIButton()
+    let timelineButton = UIButton()
+    let addPostButton = UIButton()
+    let logoutButton = UIButton()
     let stackView = UIStackView()
     var db = Firestore.firestore()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         self.title = "デバッグ"
+
+        setupStackView()
+        setupButtons()
+        addButtonsToStackView()
+        layoutStackView()
+    }
+
+    private func setupStackView() {
         stackView.axis = .vertical
         view.backgroundColor = .white
-        LoginButton.setTitle("ログイン", for: UIControl.State.normal)
-        LoginButton.setTitleColor(.black, for: .normal)
-        CreateaccountButton.setTitle("アカウント作成", for: UIControl.State.normal)
-        CreateaccountButton.setTitleColor(.black, for: .normal)
-        LoginButton.addTarget(self, action: #selector(LoginButtonTapped), for: .touchUpInside)
-        CreateaccountButton.addTarget(self, action: #selector(CreateaccountButtonTapped), for: .touchUpInside)
-        TimelineButton.setTitle("タイムライン", for: UIControl.State.normal)
-        TimelineButton.setTitleColor(.black, for: .normal)
-        TimelineButton.addTarget(self, action: #selector(TimelineButtonTapped), for: .touchUpInside)
-        
-        AddPostButton.setTitle("投稿", for: UIControl.State.normal)
-        AddPostButton.setTitleColor(.black, for: .normal)
-        AddPostButton.addTarget(self, action: #selector(AddPostButtonTapped), for: .touchUpInside)
+    }
 
-        stackView.addArrangedSubview(LoginButton)
-        stackView.addArrangedSubview(CreateaccountButton)
-        stackView.addArrangedSubview(TimelineButton)
-        stackView.addArrangedSubview(AddPostButton)
+    private func setupButtons() {
+        loginButton.setTitle("ログイン", for: .normal)
+        loginButton.setTitleColor(.black, for: .normal)
+        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+
+        createAccountButton.setTitle("アカウント作成", for: .normal)
+        createAccountButton.setTitleColor(.black, for: .normal)
+        createAccountButton.addTarget(self, action: #selector(createAccountButtonTapped), for: .touchUpInside)
+
+        timelineButton.setTitle("タイムライン", for: .normal)
+        timelineButton.setTitleColor(.black, for: .normal)
+        timelineButton.addTarget(self, action: #selector(timelineButtonTapped), for: .touchUpInside)
+
+        addPostButton.setTitle("投稿ページ", for: .normal)
+        addPostButton.setTitleColor(.black, for: .normal)
+        addPostButton.addTarget(self, action: #selector(addPostViewtransitionButtonTapped), for: .touchUpInside)
+
+        logoutButton.setTitle("ログアウト", for: .normal)
+        logoutButton.setTitleColor(.black, for: .normal)
+        logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
+
+    }
+
+    private func addButtonsToStackView() {
+        stackView.addArrangedSubview(loginButton)
+        stackView.addArrangedSubview(createAccountButton)
+        stackView.addArrangedSubview(timelineButton)
+        stackView.addArrangedSubview(addPostButton)
+    }
+
+    private func layoutStackView() {
         view.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            stackView.leadingAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+
         ])
     }
-    @objc func LoginButtonTapped() {
+    @objc func loginButtonTapped() {
         let LoginViewController = LoginViewController() // 遷移先のViewController
         self.navigationController?.pushViewController(LoginViewController, animated: true)
     }
-    @objc func CreateaccountButtonTapped() {
+    @objc func createAccountButtonTapped() {
         let Createaccount = CreateAccountViewcontroller()// 遷移先のViewController
         self.navigationController?.pushViewController(Createaccount, animated: true)
     }
-    @objc func TimelineButtonTapped(){
+    @objc func timelineButtonTapped(){
         let TimeLine = TimelineViewController()
         self.navigationController?.pushViewController(TimeLine, animated: true)
     }
-    @objc func AddPostButtonTapped(){
-        let uuid = UUID()
-        db.collection("Post").document().setData([
-                    "date": Date(),
-                    "userId": uuid.uuidString,
-                    "username": "TestUser\(Int.random(in: 1000..<5000))",
-                    "text": "Welcome to TACOS!!!"
-        ])
+//    @objc func AddPostButtonTapped(){
+//        let uuid = UUID()
+//        db.collection("Post").document().setData([
+//                    "date": Date(),
+//                    "userId": uuid.uuidString,
+//                    "username": "TestUser\(Int.random(in: 1000..<5000))",
+//                    "text": "Welcome to TACOS!!!"
+//        ])
+//    }
+    @objc func addPostViewtransitionButtonTapped(){
+        let AddPost = AddPostViewController()
+        self.navigationController?.pushViewController(AddPost, animated: true)
     }
+    @objc func logoutButtonTapped(){
+        do {
+            try Auth.auth().signOut()
+        }
+        catch let error as NSError {
+            print(error)
+        }
+        print("ログアウトしたよ")
+    }
+    
 
 }
