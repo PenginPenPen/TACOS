@@ -15,6 +15,7 @@ class DebugPageViewController: UIViewController {
     let timelineButton = UIButton()
     let addPostButton = UIButton()
     let logoutButton = UIButton()
+    let userprofileButton = UIButton()
     let stackView = UIStackView()
     var db = Firestore.firestore()
 
@@ -53,6 +54,10 @@ class DebugPageViewController: UIViewController {
         logoutButton.setTitle("ログアウト", for: .normal)
         logoutButton.setTitleColor(.black, for: .normal)
         logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
+        
+        userprofileButton.setTitle("ユーザープロフィール", for: .normal)
+        userprofileButton.setTitleColor(.black, for: .normal)
+        userprofileButton.addTarget(self, action: #selector(userprofileButtonTapped), for: .touchUpInside)
 
     }
 
@@ -61,6 +66,8 @@ class DebugPageViewController: UIViewController {
         stackView.addArrangedSubview(createAccountButton)
         stackView.addArrangedSubview(timelineButton)
         stackView.addArrangedSubview(addPostButton)
+        stackView.addArrangedSubview(logoutButton)
+        stackView.addArrangedSubview(userprofileButton)
     }
 
     private func layoutStackView() {
@@ -107,6 +114,10 @@ class DebugPageViewController: UIViewController {
             print(error)
         }
         print("ログアウトしたよ")
+    }
+    @objc func userprofileButtonTapped(){
+        let  UserProfile = UserProfileViewController()
+        self.navigationController?.pushViewController( UserProfile, animated: true)
     }
     
 
