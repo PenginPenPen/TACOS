@@ -107,6 +107,8 @@ class LoginViewController: UIViewController{
                     print("ログインに失敗", error.localizedDescription)
                 }else{
                     print("ログインに成功")
+                    let TimeLine = TimelineViewController()
+                    self?.navigationController?.pushViewController(TimeLine, animated: true)
                 }
             }
         }
