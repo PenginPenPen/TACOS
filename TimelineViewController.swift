@@ -11,6 +11,7 @@ import FirebaseFirestore
 class TimelineViewController: UIViewController {
     var db = Firestore.firestore()
     var  defaultText="デフォwwww"
+    let df = DateFormatter()
     private let scrollView = UIScrollView()
     private let postStackView = UIStackView()
     override func viewDidLoad(){
@@ -60,14 +61,15 @@ class TimelineViewController: UIViewController {
                     print("データにアクセスできませんでした。")
                     continue // 次のドキュメントへ
                 }
-                
-                let date = data["date"] as? Timestamp //投稿日時の管理の仕方を変える
+              
+                let date_timestamp = data["date"] as? Timestamp
+                let date =  date_timestamp?.dateValue()
                 let text = data["text"] as? String
                 let userid = data["userId"] as? String
                 let username = data["username"] as? String
                 
 //                print(date,text,userid,username)
-                let postView = self.createPostView(postText: text ?? self.defaultText,userId:userid ?? self.defaultText,userName:username ?? self.defaultText)
+                let postView = self.createPostView(postText: text ?? self.defaultText,userId:userid ?? self.defaultText,userName:username ?? self.defaultText, date: date ?? Date.now)
                 self.postStackView.addArrangedSubview(postView)
             }
         }
@@ -99,7 +101,7 @@ class TimelineViewController: UIViewController {
         postStackView.alignment = .fill
     }
 
-    private func createPostView(postText: String, userId: String, userName: String) -> UIView {
+    private func createPostView(postText: String, userId: String, userName: String, date: Date) -> UIView {
         let postView = UIView()
         postView.backgroundColor = UIColor(red: 0.16, green: 0.16, blue: 0.16, alpha: 1.0) // #2A2A2A
 //        postView.layer.cornerRadius = 15
@@ -119,8 +121,9 @@ class TimelineViewController: UIViewController {
         userIdLabel.font = UIFont.systemFont(ofSize: 12)
         userIdLabel.textColor = UIColor(white: 0.6, alpha: 1.0)
         
+        self.df.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let postTimeLabel = UILabel()
-        postTimeLabel.text = "1秒前"
+        postTimeLabel.text = df.string(from: date)
         postTimeLabel.font = UIFont.systemFont(ofSize: 12)
         postTimeLabel.textColor = UIColor(white: 0.6, alpha: 1.0)
         
