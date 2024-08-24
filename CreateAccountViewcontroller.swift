@@ -19,8 +19,8 @@ class CreateAccountViewcontroller: UIViewController {
     private let transitionLogin = UIButton()
     private let logolabel = UILabel()
     var AccentColor=UIColor(red: 0.98, green: 1.00, blue: 0.25, alpha: 1.0)
-//    var Email = String()
-//    var Passward = String()
+    //    var Email = String()
+    //    var Passward = String()
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -33,7 +33,7 @@ class CreateAccountViewcontroller: UIViewController {
         
     }
     private func setupView(){
-//        self.title="アカウント作成画面"
+        //        self.title="アカウント作成画面"
         view.backgroundColor = AccentColor
     }
     private func setupLogolabel() {
@@ -47,7 +47,7 @@ class CreateAccountViewcontroller: UIViewController {
         formStackView.axis = .vertical
         formStackView.spacing = 20
         formStackView.distribution = .fill
-//        formStackView.alignment = .center
+        //        formStackView.alignment = .center
         view.addSubview(formStackView)
     }
     private func setupButton(){
@@ -89,7 +89,7 @@ class CreateAccountViewcontroller: UIViewController {
         passwordField.borderStyle = .none
         formStackView.addArrangedSubview(passwordField)
     }
-
+    
     private func getLoginCredentials() -> (email: String, password: String)? {
         guard let email = emailField.text, !email.isEmpty,
               let password = passwordField.text, !password.isEmpty else {
@@ -98,11 +98,11 @@ class CreateAccountViewcontroller: UIViewController {
         }
         return (email, password)
     }
-//    private func setupForgotPasswordButton(){
-//        forgotPassword.setTitle("パスワードを忘れた場合はこちら", for: UIControl.State.normal)
-//        forgotPassword.setTitleColor(.black, for: .normal)
-//        usernamePasswordStackView.addArrangedSubview(forgotPassword)
-//    }
+    //    private func setupForgotPasswordButton(){
+    //        forgotPassword.setTitle("パスワードを忘れた場合はこちら", for: UIControl.State.normal)
+    //        forgotPassword.setTitleColor(.black, for: .normal)
+    //        usernamePasswordStackView.addArrangedSubview(forgotPassword)
+    //    }
     private func setupTransitionLoginButton(){
         transitionLogin.setTitle("ログインはこちら", for: UIControl.State.normal)
         transitionLogin.setTitleColor(.black, for: .normal)
@@ -116,6 +116,7 @@ class CreateAccountViewcontroller: UIViewController {
                     print("アカウントの作成に失敗", error.localizedDescription)
                 }else{
                     print("アカウント作成成功")
+                    self.CreateUserData()
                     self.transitionLoginView()
                 }
             }
@@ -128,18 +129,39 @@ class CreateAccountViewcontroller: UIViewController {
         let LoginViewController = LoginViewController()
         self.navigationController?.pushViewController(LoginViewController, animated: true)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func CreateUserData(){
+        let uuid = UUID()
+        let db = Firestore.firestore()
+        Auth.auth().addStateDidChangeListener { auth, user in
+            if let user = user {
+                let userRef = db.collection("Users").document(user.uid)
+                userRef.setData([
+                    "displayName": user.displayName ?? "名無しさん\(uuid.uuidString)",
+                    "userId":user.uid,
+                    "photoURL": user.photoURL?.absoluteString ?? "",
+                    "createdAt": FieldValue.serverTimestamp()
+                ]) { err in
+                    if let err = err {
+                        print("Error writing document: \(err)")
+                    } else {
+                        print("User data saved successfully!")
+                    }
+                }
+            }
+            /*
+             // MARK: - Navigation
+             
+             // In a storyboard-based application, you will often want to do a little preparation before navigation
+             override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+             // Get the new view controller using segue.destination.
+             // Pass the selected object to the new view controller.
+             }
+             */
+            
+        }
+        #Preview{
+            CreateAccountViewcontroller()
+        }
+        
     }
-    */
-
 }
-#Preview{
-    CreateAccountViewcontroller()
-}
-
