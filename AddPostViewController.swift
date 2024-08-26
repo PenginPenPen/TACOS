@@ -11,6 +11,7 @@ import FirebaseAuth
 class AddPostViewController: UIViewController {
     var db = Firestore.firestore()
     var displayName: String?
+    var officialaccount: Bool?
     private let TextField = UITextField()
     private let PostButton = UIButton()
     override func viewDidLoad() {
@@ -34,6 +35,7 @@ class AddPostViewController: UIViewController {
           if let document = document, document.exists {
               let data = document.data()
               self.displayName = data?["displayName"] as? String
+              self.officialaccount = data?["official"] as? Bool
           } else {
             print("Document does not exist")
           }
@@ -73,8 +75,9 @@ class AddPostViewController: UIViewController {
         db.collection("Post").document().setData([
                     "date": Date(),
                     "userId": uuid.uuidString,
-                    "displayName": displayName ?? "匿名",
-                    "text": text ?? "空白"
+                    "displayName": displayName ?? "",
+                    "text": text ?? "",
+                    "official": officialaccount ?? false
         ])
         print("投稿内容\(String(describing: text))")
         let TimeLine = TimelineViewController()
