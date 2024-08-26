@@ -10,13 +10,14 @@ import Firebase
 import FirebaseFirestore
 import FirebaseAuth
 class DebugPageViewController: UIViewController {
+    let stackView = UIStackView()
     let loginButton = UIButton()
     let createAccountButton = UIButton()
     let timelineButton = UIButton()
     let addPostButton = UIButton()
     let logoutButton = UIButton()
     let userprofileButton = UIButton()
-    let stackView = UIStackView()
+    let addprofileButton = UIButton()
     var db = Firestore.firestore()
 
     override func viewDidLoad() {
@@ -58,6 +59,10 @@ class DebugPageViewController: UIViewController {
         userprofileButton.setTitle("ユーザープロフィール", for: .normal)
         userprofileButton.setTitleColor(.black, for: .normal)
         userprofileButton.addTarget(self, action: #selector(userprofileButtonTapped), for: .touchUpInside)
+        
+        addprofileButton.setTitle("プロフィール作成", for: .normal)
+        addprofileButton.setTitleColor(.black, for: .normal)
+        addprofileButton.addTarget(self, action: #selector(addprofileButtonTapped), for: .touchUpInside)
 
     }
 
@@ -68,6 +73,7 @@ class DebugPageViewController: UIViewController {
         stackView.addArrangedSubview(addPostButton)
         stackView.addArrangedSubview(logoutButton)
         stackView.addArrangedSubview(userprofileButton)
+        stackView.addArrangedSubview(addprofileButton)
     }
 
     private func layoutStackView() {
@@ -118,6 +124,10 @@ class DebugPageViewController: UIViewController {
     @objc func userprofileButtonTapped(){
         let  UserProfile = UserProfileViewController()
         self.navigationController?.pushViewController( UserProfile, animated: true)
+    }
+    @objc func addprofileButtonTapped(){
+        let  AddProfile = AddProfileViewController()
+        self.navigationController?.pushViewController( AddProfile, animated: true)
     }
     
 

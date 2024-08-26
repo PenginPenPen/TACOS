@@ -10,11 +10,12 @@ import FirebaseFirestore
 import FirebaseAuth
 class AddPostViewController: UIViewController {
     var db = Firestore.firestore()
+    var displayName: String?
     private let TextField = UITextField()
     private let PostButton = UIButton()
     override func viewDidLoad() {
         super.viewDidLoad()
-        getUserData()
+        getUserdata()
         setupView()
         setupTextField()
         setupPostButton()
@@ -26,14 +27,16 @@ class AddPostViewController: UIViewController {
         self.title="投稿追加画面"
         view.backgroundColor = .white
     }
-    private func getUserData() -> String? {
-        if let user = Auth.auth().currentUser {
-            return user.email
-        } else {
-            print("ログインしてないよ")
-            let LoginViewController = LoginViewController()
-            self.navigationController?.pushViewController(LoginViewController, animated: true)
-            return nil
+    func getUserdata(){
+        let uid = Auth.auth().currentUser?.uid
+        let userRef = db.collection("Users").document(uid!)
+        userRef.getDocument { (document, error) in
+          if let document = document, document.exists {
+              let data = document.data()
+              self.displayName = data?["displayName"] as? String
+          } else {
+            print("Document does not exist")
+          }
         }
     }
     private func setupTextField() {
@@ -66,12 +69,11 @@ class AddPostViewController: UIViewController {
     }
     @objc func AddPostButtonTapped(){
         let uuid = UUID()
-        let email=getUserData()
         let text = getField()
         db.collection("Post").document().setData([
                     "date": Date(),
                     "userId": uuid.uuidString,
-                    "username": email ?? "匿名",
+                    "displayName": displayName ?? "匿名",
                     "text": text ?? "空白"
         ])
         print("投稿内容\(String(describing: text))")
