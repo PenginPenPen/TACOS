@@ -66,7 +66,11 @@ class TimelineViewController: UIViewController {
                 let date =  date_timestamp?.dateValue()
                 let text = data["text"] as? String
                 let userid = data["userId"] as? String
-                let username = data["displayName"] as? String
+                var username = data["displayName"] as? String
+                if ((data["official"]) != nil){
+                    //ユーザーの投稿が公式アカウントだった時の処理
+                    username = (username ?? "")+":official"
+                }
                 
 //                print(date,text,userid,username)
                 let postView = self.createPostView(postText: text ?? self.defaultText,userId:userid ?? self.defaultText,userName:username ?? self.defaultText, date: date ?? Date.now)
