@@ -12,7 +12,6 @@ class TimelineViewController: UIViewController {
     var db = Firestore.firestore()
     var  defaultText="デフォwwww"
     let df = DateFormatter()
-    private let headerView = CustomHeaderView(frame: .zero)
     private let scrollView = UIScrollView()
     private let postStackView = UIStackView()
     private let tableView = UITableView()
@@ -31,7 +30,7 @@ class TimelineViewController: UIViewController {
     }
     
     private func setupView(){
-        self.title="タイムライン"
+        self.title=""
         view.backgroundColor = UIColor(red: 0.16, green: 0.16, blue: 0.16, alpha: 1.0)
     }
     private func getData() async{
@@ -104,7 +103,7 @@ class TimelineViewController: UIViewController {
         
         let userIconImageView = UIImageView(image: UIImage(named: "defaultUserIcon"))
         userIconImageView.contentMode = .scaleAspectFill
-        userIconImageView.layer.cornerRadius = 20
+        userIconImageView.layer.cornerRadius = 10
         userIconImageView.clipsToBounds = true
         
         let userNameLabel = UILabel()
