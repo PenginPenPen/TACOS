@@ -32,26 +32,9 @@ class TimelineViewController: UIViewController {
     
     private func setupView(){
         self.title="タイムライン"
-        view.backgroundColor = .black
-    }
-    private func setupCustomHeader() {
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(headerView)
-        
+        view.backgroundColor = UIColor(red: 0.16, green: 0.16, blue: 0.16, alpha: 1.0)
     }
     private func getData() async{
-        //        let docRef = db.collection("TestData").document("TestPost")
-        //        do {
-        //            let document = try await docRef.getDocument()
-        //            if document.exists {
-        //                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-        //                print(dataDescription)
-        //            } else {
-        //                print("Document does not exist")
-        //            }
-        //        } catch {
-        //            print("Error getting document: \(error)")
-        //        }
         db.collection("Post").order(by: "date", descending: true)
             .getDocuments { (querySnapshot, error) in
             if let error = error {
@@ -92,7 +75,7 @@ class TimelineViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60),
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -161,7 +144,7 @@ class TimelineViewController: UIViewController {
         postTextLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            postView.heightAnchor.constraint(greaterThanOrEqualToConstant: 100),
+            postView.heightAnchor.constraint(greaterThanOrEqualToConstant: 100),///postのviewの高さ
             
             userIconImageView.topAnchor.constraint(equalTo: postView.topAnchor, constant: 15),
             userIconImageView.leadingAnchor.constraint(equalTo: postView.leadingAnchor, constant: 15),
@@ -180,64 +163,10 @@ class TimelineViewController: UIViewController {
             postTextLabel.topAnchor.constraint(equalTo: postTimeLabel.bottomAnchor, constant: 10),
             postTextLabel.leadingAnchor.constraint(equalTo: postView.leadingAnchor, constant: 15),
             postTextLabel.trailingAnchor.constraint(equalTo: postView.trailingAnchor, constant: -15),
-
-            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 80)
         ])
         
         
         return postView
-    }
-}
-class CustomHeaderView: UIView {
-
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "ヘッダーだよ"
-        label.font = UIFont.boldSystemFont(ofSize: 24)
-        label.textColor = .white
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let iconImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "defaultUserIcon"))
-        imageView.contentMode = .scaleAspectFit
-//        imageView.r
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupView()
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupView()
-    }
-
-    private func setupView() {
-        self.backgroundColor =  UIColor(red: 0.16, green: 0.16, blue: 0.16, alpha: 1.0)
-        addSubview(titleLabel)
-        addSubview(iconImageView)
-        
-        // Auto LayoutでtitleLabelを中央に配置
-        NSLayoutConstraint.activate([
-            titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: -40), // 調整値を必要に応じて変更
-            titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-
-            // 画像ビューの制約
-            iconImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            iconImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            iconImageView.widthAnchor.constraint(equalToConstant: 32), // 画像のサイズを調整
-            iconImageView.heightAnchor.constraint(equalToConstant: 32)
-        ])
     }
 }
 #Preview(){
