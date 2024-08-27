@@ -26,6 +26,7 @@ class DebugPageViewController: UIViewController {
 
         setupStackView()
         setupButtons()
+        setupCustomHeader()
         addButtonsToStackView()
         layoutStackView()
     }
@@ -83,7 +84,7 @@ class DebugPageViewController: UIViewController {
             stackView.leadingAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
 
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60)
 
         ])
     }
@@ -131,4 +132,7 @@ class DebugPageViewController: UIViewController {
     }
     
 
+}
+#Preview(){
+    DebugPageViewController()
 }
