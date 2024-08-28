@@ -19,6 +19,7 @@ class DebugPageViewController: UIViewController {
     let userprofileButton = UIButton()
     let addprofileButton = UIButton()
     var db = Firestore.firestore()
+    private let addPostbutton = UIButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,6 +65,11 @@ class DebugPageViewController: UIViewController {
         addprofileButton.setTitle("プロフィール作成", for: .normal)
         addprofileButton.setTitleColor(.black, for: .normal)
         addprofileButton.addTarget(self, action: #selector(addprofileButtonTapped), for: .touchUpInside)
+        
+        addPostbutton.setImage(UIImage(systemName: "location.fill"), for: .normal)
+        addPostbutton.backgroundColor = .black
+        addPostbutton.layer.cornerRadius = 30
+        addPostbutton.translatesAutoresizingMaskIntoConstraints = false
 
     }
 
@@ -75,6 +81,7 @@ class DebugPageViewController: UIViewController {
         stackView.addArrangedSubview(logoutButton)
         stackView.addArrangedSubview(userprofileButton)
         stackView.addArrangedSubview(addprofileButton)
+        stackView.addArrangedSubview(addPostbutton)
     }
 
     private func layoutStackView() {
@@ -84,7 +91,8 @@ class DebugPageViewController: UIViewController {
             stackView.leadingAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
 
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60)
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60),
+
 
         ])
     }

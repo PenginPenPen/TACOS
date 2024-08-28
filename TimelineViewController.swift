@@ -15,6 +15,7 @@ class TimelineViewController: UIViewController {
     private let scrollView = UIScrollView()
     private let postStackView = UIStackView()
     private let tableView = UITableView()
+    private let addPostbutton = UIButton()
     override func viewDidLoad(){
         super.viewDidLoad()
         setupView()
@@ -166,6 +167,9 @@ class TimelineViewController: UIViewController {
         
         
         return postView
+    }
+    private func setupAddpostButton(){
+        addPostbutton.backgroundColor = UIColor.white
     }
 }
 #Preview(){

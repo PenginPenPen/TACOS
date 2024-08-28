@@ -16,6 +16,7 @@ class UserProfileViewController: UIViewController {
     let df = DateFormatter()
     private let CreatedDate = UILabel()
     private let DisplayName = UILabel()
+    private let stackView = UIStackView()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -25,7 +26,7 @@ class UserProfileViewController: UIViewController {
         setupConstraints()
     }
     private func setupView(){
-        self.title = "ユーザープロフィール"
+        self.title = "profile"
         view.backgroundColor = .white
     }
     func getUserdata(){
@@ -50,16 +51,20 @@ class UserProfileViewController: UIViewController {
         DisplayName.translatesAutoresizingMaskIntoConstraints = false
         CreatedDate.textColor = .black
         CreatedDate.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(DisplayName)
-        view.addSubview(CreatedDate)
+        stackView.addArrangedSubview(DisplayName)
+        stackView.addArrangedSubview(CreatedDate)
     }
     private func setupConstraints(){
+
+    }
+    private func setupStackview(){
+        stackView.axis = .vertical
+        view.addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            DisplayName.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            DisplayName.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-                 
-            CreatedDate.topAnchor.constraint(equalTo: DisplayName.bottomAnchor),
-             ])
+            stackView.leadingAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+        ])
     }
     /*
     // MARK: - Navigation
