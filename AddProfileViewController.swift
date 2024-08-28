@@ -73,9 +73,8 @@ class AddProfileViewController: UIViewController {
                                     ])
     }
     private func CreateUserData(DisplayName:String){
-        let uuid = UUID()
         let db = Firestore.firestore()
-        Auth.auth().addStateDidChangeListener { auth, user in
+        let handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if let user = user {
                 let userRef = db.collection("Users").document(user.uid)
                 userRef.setData([
@@ -103,7 +102,7 @@ class AddProfileViewController: UIViewController {
         return (displayName)
     }
     @objc func SaveButtonTapped(){
-        print(getField())
+        print(getField() ?? "")
         CreateUserData(DisplayName: getField() ?? "")
         let TimeLine = TimelineViewController()
         self.navigationController?.pushViewController(TimeLine, animated: true)
