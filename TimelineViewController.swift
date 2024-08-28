@@ -34,26 +34,25 @@ class TimelineViewController: UIViewController {
         self.title=""
         view.backgroundColor = UIColor(red: 0.16, green: 0.16, blue: 0.16, alpha: 1.0)
     }
-    private func getData() async{
-        db.collection("Post").order(by: "date", descending: true)
-            .getDocuments { (querySnapshot, error) in
-            if let error = error {
-                print("投稿の取得に失敗しました。: \(error)")
-                return // エラー発生時は処理を中断
-            }
+    private func getData() async {
+        let db = Firestore.firestore()
+        
+        do {
+            // 非同期でドキュメントを取得
+            let querySnapshot = try await db.collection("Post")
+                .order(by: "date", descending: true)
+                .getDocuments()
             
-            guard let documents = querySnapshot?.documents else {
+            // ドキュメントが存在するか確認
+            guard !querySnapshot.documents.isEmpty else {
                 print("データがありません")
                 return // ドキュメントが見つからない場合は処理を中断
             }
             
-            for document in documents {
-                // ドキュメントのデータを取得
-                guard let data = document.data() as? [String: Any] else {
-                    print("データにアクセスできませんでした。")
-                    continue // 次のドキュメントへ
-                }
-              
+            for document in querySnapshot.documents {
+                // 各ドキュメントのデータにアクセス
+                let data = document.data()
+                
                 let date_timestamp = data["date"] as? Timestamp
                 let date =  date_timestamp?.dateValue()
                 let text = data["text"] as? String
@@ -68,9 +67,13 @@ class TimelineViewController: UIViewController {
                 let postView = self.createPostView(postText: text ?? self.defaultText,userId:userid ?? self.defaultText,userName:username ?? self.defaultText, date: date ?? Date.now)
                 self.postStackView.addArrangedSubview(postView)
             }
+            
+        } catch {
+            // エラーが発生した場合の処理
+            print("投稿の取得に失敗しました: \(error.localizedDescription)")
         }
-        
     }
+              
     private func setupScrollView() {
         view.addSubview(scrollView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
