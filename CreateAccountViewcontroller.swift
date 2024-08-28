@@ -116,7 +116,7 @@ class CreateAccountViewcontroller: UIViewController {
                     print("アカウントの作成に失敗", error.localizedDescription)
                 }else{
                     print("アカウント作成成功")
-                    self.CreateUserData()
+                    //                    self.CreateUserData()
                     self.transitionLoginView()
                 }
             }
@@ -132,7 +132,8 @@ class CreateAccountViewcontroller: UIViewController {
     func CreateUserData(){
         let uuid = UUID()
         let db = Firestore.firestore()
-        Auth.auth().addStateDidChangeListener { auth, user in
+        
+        let handle = Auth.auth().addStateDidChangeListener { (auth, user) in
             if let user = user {
                 let userRef = db.collection("Users").document(user.uid)
                 userRef.setData([
@@ -147,21 +148,22 @@ class CreateAccountViewcontroller: UIViewController {
                         print("User data saved successfully!")
                     }
                 }
+                //            }
+                /*
+                 // MARK: - Navigation
+                 
+                 // In a storyboard-based application, you will often want to do a little preparation before navigation
+                 override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+                 // Get the new view controller using segue.destination.
+                 // Pass the selected object to the new view controller.
+                 }
+                 */
+                
             }
-            /*
-             // MARK: - Navigation
-             
-             // In a storyboard-based application, you will often want to do a little preparation before navigation
-             override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-             // Get the new view controller using segue.destination.
-             // Pass the selected object to the new view controller.
-             }
-             */
+            #Preview{
+                CreateAccountViewcontroller()
+            }
             
         }
-        #Preview{
-            CreateAccountViewcontroller()
-        }
-        
     }
 }
