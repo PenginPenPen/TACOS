@@ -22,6 +22,7 @@ class TimelineViewController: UIViewController {
         setupCustomHeader()
         setupScrollView()
         setupStackView()
+        setupAddpostButton()
         Task {
             do {
                 let _: () =  await getData()
@@ -99,7 +100,6 @@ class TimelineViewController: UIViewController {
         postStackView.distribution = .fillEqually
         postStackView.alignment = .fill
     }
-
     private func createPostView(postText: String, userId: String, userName: String, date: Date) -> UIView {
         let postView = UIView()
         postView.backgroundColor = UIColor(red: 0.16, green: 0.16, blue: 0.16, alpha: 1.0) // #2A2A2A
@@ -172,7 +172,23 @@ class TimelineViewController: UIViewController {
         return postView
     }
     private func setupAddpostButton(){
-        addPostbutton.backgroundColor = UIColor.white
+        let image = UIImage(systemName: "plus.bubble")?.withTintColor(.black)
+        addPostbutton.setImage(image, for: .normal)
+        addPostbutton.backgroundColor = UIColor(red: 0.98, green: 1.00, blue: 0.25, alpha: 1.0)
+        addPostbutton.setTitleColor(.black, for: .normal)
+        addPostbutton.layer.cornerRadius = 10
+        addPostbutton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        view.addSubview(addPostbutton)
+        addPostbutton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            addPostbutton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            addPostbutton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+            ])
+        addPostbutton.addTarget(self, action: #selector(AddPostButtonTapped), for: .touchUpInside)
+    }
+    @objc func AddPostButtonTapped(){
+        let AddPost = AddPostViewController()
+        self.navigationController?.pushViewController(AddPost, animated: true)
     }
 }
 #Preview(){
