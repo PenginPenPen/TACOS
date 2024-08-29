@@ -29,16 +29,23 @@ class AddPostViewController: UIViewController {
         view.backgroundColor = .white
     }
     func getUserdata(){
-        let uid = Auth.auth().currentUser?.uid
-        let userRef = db.collection("Users").document(uid!)
-        userRef.getDocument { (document, error) in
-          if let document = document, document.exists {
-              let data = document.data()
-              self.displayName = data?["displayName"] as? String
-              self.officialaccount = data?["official"] as? Bool
-          } else {
-            print("Document does not exist")
-          }
+        if Auth.auth().currentUser != nil {
+            let uid = Auth.auth().currentUser?.uid
+            let userRef = db.collection("Users").document(uid!)
+            userRef.getDocument { (document, error) in
+                if let document = document, document.exists {
+                    let data = document.data()
+                    self.displayName = data?["displayName"] as? String
+                    self.officialaccount = data?["official"] as? Bool
+                } else {
+                    print("データがありません")
+                }
+            }
+        }else{
+            //ログインしてない場合データを取得せずにアカウント作成画面に移動する
+            print("未ログイン")
+            let Createaccount = CreateAccountViewcontroller()
+            self.navigationController?.pushViewController(Createaccount, animated: true)
         }
     }
     private func setupTextField() {
