@@ -74,7 +74,7 @@ class AddProfileViewController: UIViewController {
     }
     private func CreateUserData(DisplayName:String){
         let db = Firestore.firestore()
-        let handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+        _ = Auth.auth().addStateDidChangeListener { (auth, user) in
             if let user = user {
                 let userRef = db.collection("Users").document(user.uid)
                 userRef.setData([

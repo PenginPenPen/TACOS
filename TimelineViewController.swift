@@ -166,6 +166,8 @@ class TimelineViewController: UIViewController {
             postTextLabel.topAnchor.constraint(equalTo: postTimeLabel.bottomAnchor, constant: 10),
             postTextLabel.leadingAnchor.constraint(equalTo: postView.leadingAnchor, constant: 15),
             postTextLabel.trailingAnchor.constraint(equalTo: postView.trailingAnchor, constant: -15),
+            addPostbutton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            addPostbutton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
         ])
         
         
@@ -178,12 +180,8 @@ class TimelineViewController: UIViewController {
         addPostbutton.setTitleColor(.black, for: .normal)
         addPostbutton.layer.cornerRadius = 10
         addPostbutton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        view.addSubview(addPostbutton)
         addPostbutton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            addPostbutton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            addPostbutton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
-            ])
+        view.addSubview(addPostbutton)
         addPostbutton.addTarget(self, action: #selector(AddPostButtonTapped), for: .touchUpInside)
     }
     @objc func AddPostButtonTapped(){
