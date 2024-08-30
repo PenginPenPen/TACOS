@@ -17,7 +17,6 @@ class LoginViewController: UIViewController{
     private let emailField = UITextField()
     private let passwordField = UITextField()
     private let forgotPassword = UIButton()
-    var AccentColor=UIColor(red: 0.98, green: 1.00, blue: 0.25, alpha: 1.0)
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -30,7 +29,7 @@ class LoginViewController: UIViewController{
     }
     private func setupView(){
 //        self.title="ログイン画面"
-        view.backgroundColor =  AccentColor
+        view.backgroundColor = AccentColor_yellow
     }
     private func setupLogolabel() {
         logolabel.text = "LOGIN"
@@ -49,7 +48,7 @@ class LoginViewController: UIViewController{
         loginButton.setTitle("ログイン", for: UIControl.State.normal)
         loginButton.backgroundColor = .black
         loginButton.titleLabel?.font = UIFont(name: "Impact", size: 14)
-        loginButton.setTitleColor(AccentColor, for: .normal)
+        loginButton.setTitleColor(AccentColor_yellow, for: .normal)
         loginButton.layer.cornerRadius = 35
         loginButton.addTarget(self, action: #selector(LoginButtonTapped), for: .touchUpInside)
         formStackView.addArrangedSubview(loginButton)
@@ -74,7 +73,7 @@ class LoginViewController: UIViewController{
         emailField.textContentType = .emailAddress
         emailField.layer.cornerRadius = 25
         emailField.borderStyle = .none
-        emailField.backgroundColor = AccentColor
+        emailField.backgroundColor = AccentColor_yellow
         formStackView.addArrangedSubview(emailField)
         
         passwordField.placeholder = "ここにパスワードを入力"
@@ -83,7 +82,7 @@ class LoginViewController: UIViewController{
         passwordField.isSecureTextEntry = true
         passwordField.layer.cornerRadius = 25
         passwordField.borderStyle = .none
-        passwordField.backgroundColor = AccentColor
+        passwordField.backgroundColor = AccentColor_yellow
         formStackView.addArrangedSubview(passwordField)
     }
     private func setupForgotPasswordButton(){

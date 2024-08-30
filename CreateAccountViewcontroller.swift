@@ -18,7 +18,7 @@ class CreateAccountViewcontroller: UIViewController {
     private let forgotPassword = UIButton()
     private let transitionLogin = UIButton()
     private let logolabel = UILabel()
-    var AccentColor=UIColor(red: 0.98, green: 1.00, blue: 0.25, alpha: 1.0)
+
     //    var Email = String()
     //    var Passward = String()
     override func viewDidLoad() {
@@ -34,7 +34,7 @@ class CreateAccountViewcontroller: UIViewController {
     }
     private func setupView(){
         //        self.title="アカウント作成画面"
-        view.backgroundColor = AccentColor
+        view.backgroundColor = AccentColor_yellow
     }
     private func setupLogolabel() {
         logolabel.text = "WELCOME"
@@ -78,7 +78,7 @@ class CreateAccountViewcontroller: UIViewController {
         emailField.textContentType = .emailAddress
         emailField.layer.cornerRadius = 25
         emailField.borderStyle = .none
-        emailField.backgroundColor = AccentColor
+        emailField.backgroundColor = AccentColor_yellow
         formStackView.addArrangedSubview(emailField)
         
         passwordField.placeholder = "ここにパスワードを入力"

@@ -65,7 +65,7 @@ class CustomHeaderView: UIView {
     }
 
     private func setupView() {
-        self.backgroundColor = UIColor(red: 0.16, green: 0.16, blue: 0.16, alpha: 1.0)
+        self.backgroundColor = AccentColor_gray
         addSubview(titleLabel)
         iconButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         addSubview(iconButton)

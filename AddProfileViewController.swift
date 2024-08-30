@@ -58,7 +58,7 @@ class AddProfileViewController: UIViewController {
         saveButton.setTitle("Save", for: UIControl.State.normal)
         saveButton.titleLabel?.font = UIFont(name: "Impact", size: 14)
         saveButton.backgroundColor = .black
-        saveButton.setTitleColor(UIColor(red: 0.98, green: 1.00, blue: 0.25, alpha: 1.0), for: .normal)
+        saveButton.setTitleColor(AccentColor_yellow, for: .normal)
         saveButton.layer.cornerRadius = 35
         saveButton.addTarget(self, action: #selector(SaveButtonTapped), for: .touchUpInside)
         formStackView.addArrangedSubview(saveButton)

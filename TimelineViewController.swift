@@ -33,7 +33,7 @@ class TimelineViewController: UIViewController {
     
     private func setupView(){
         self.title=""
-        view.backgroundColor = UIColor(red: 0.16, green: 0.16, blue: 0.16, alpha: 1.0)
+        view.backgroundColor = AccentColor_gray
     }
     private func getData() async {
         let db = Firestore.firestore()
@@ -102,7 +102,7 @@ class TimelineViewController: UIViewController {
     }
     private func createPostView(postText: String, userId: String, userName: String, date: Date) -> UIView {
         let postView = UIView()
-        postView.backgroundColor = UIColor(red: 0.16, green: 0.16, blue: 0.16, alpha: 1.0) // #2A2A2A
+        postView.backgroundColor = AccentColor_gray
 //        postView.layer.cornerRadius = 15
         
         let userIconImageView = UIImageView(image: UIImage(named: "defaultUserIcon"))
@@ -129,7 +129,7 @@ class TimelineViewController: UIViewController {
         let postTextLabel = UILabel()
         postTextLabel.text = postText
         postTextLabel.font = UIFont.systemFont(ofSize: 14)
-        postTextLabel.textColor = UIColor(red: 1.0, green: 1.0, blue: 0.6, alpha: 1.0) // #FFFF99
+        postTextLabel.textColor = AccentColor_yellow
         postTextLabel.numberOfLines = 0
 
 
@@ -176,7 +176,7 @@ class TimelineViewController: UIViewController {
     private func setupAddpostButton(){
         let image = UIImage(systemName: "plus.bubble")?.withTintColor(.black)
         addPostbutton.setImage(image, for: .normal)
-        addPostbutton.backgroundColor = UIColor(red: 0.98, green: 1.00, blue: 0.25, alpha: 1.0)
+        addPostbutton.backgroundColor = AccentColor_yellow
         addPostbutton.setTitleColor(.black, for: .normal)
         addPostbutton.layer.cornerRadius = 10
         addPostbutton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)

@@ -33,4 +33,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 }
-
+var AccentColor_yellow = UIColor(red: 0.98, green: 1.00, blue: 0.25, alpha: 1.0)//黄色
+var AccentColor_gray = UIColor(red: 0.16, green: 0.16, blue: 0.16, alpha: 1.0)
