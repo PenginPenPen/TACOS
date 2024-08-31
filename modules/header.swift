@@ -45,6 +45,9 @@ class CustomHeaderView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    private func getSteps(){
+        
+    }
     
     private let iconButton: UIButton = {
         let button = UIButton()

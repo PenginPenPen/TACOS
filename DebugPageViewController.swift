@@ -137,7 +137,6 @@ class DebugPageViewController: UIViewController {
         let  AddProfile = AddProfileViewController()
         self.navigationController?.pushViewController( AddProfile, animated: true)
     }
-    
 
 }
 #Preview(){
