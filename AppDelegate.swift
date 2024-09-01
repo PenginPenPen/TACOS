@@ -30,8 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
-
 }
 var AccentColor_yellow = UIColor(red: 0.98, green: 1.00, blue: 0.25, alpha: 1.0)//黄色
 var AccentColor_gray = UIColor(red: 0.16, green: 0.16, blue: 0.16, alpha: 1.0)

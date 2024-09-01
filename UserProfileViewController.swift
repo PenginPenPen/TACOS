@@ -30,20 +30,26 @@ class UserProfileViewController: UIViewController {
         view.backgroundColor = .white
     }
     func getUserdata(){
-        let uid = Auth.auth().currentUser?.uid
-        let userRef = db.collection("Users").document(uid!)
-        userRef.getDocument { (document, error) in
-          if let document = document, document.exists {
-              let data = document.data()
-              self.df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-              let date_timestamp = data?["createdAt"] as! Timestamp
-              self.created_date = date_timestamp.dateValue()
-              self.displayName = data?["displayName"] as? String
-              self.DisplayName.text = self.displayName
-              self.CreatedDate.text = self.df.string(from: self.created_date ?? Date.now)
-          } else {
-            print("Document does not exist")
-          }
+        if LoginManager.shared.isLoggedIn {
+                let uid = Auth.auth().currentUser?.uid
+                let userRef = db.collection("Users").document(uid!)
+                userRef.getDocument { (document, error) in
+                  if let document = document, document.exists {
+                      let data = document.data()
+                      self.df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                      let date_timestamp = data?["createdAt"] as! Timestamp
+                      self.created_date = date_timestamp.dateValue()
+                      self.displayName = data?["displayName"] as? String
+                      self.DisplayName.text = self.displayName
+                      self.CreatedDate.text = self.df.string(from: self.created_date ?? Date.now)
+                  } else {
+                    print("Document does not exist")
+                  }
+                }
+        } else {
+            print("ログインしてません")
+            let Createaccount = CreateAccountViewcontroller()
+            self.navigationController?.pushViewController(Createaccount, animated: true)
         }
     }
     private func setupLabels(){

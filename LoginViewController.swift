@@ -99,18 +99,28 @@ class LoginViewController: UIViewController{
         return (email, password)
     }
     @objc func LoginButtonTapped() {
-        if let credentials = getLoginCredentials() {
-            Auth.auth().signIn(withEmail: credentials.email, password: credentials.password) { [weak self] authResult, error in
-                guard self != nil else { return }
-                if let error = error {
-                    print("ログインに失敗", error.localizedDescription)
-                }else{
-                    print("ログインに成功")
-                    let TimeLine = TimelineViewController()
-                    self?.navigationController?.pushViewController(TimeLine, animated: true)
-                }
-            }
-        }
+        let credentials = getLoginCredentials()
+//            Auth.auth().signIn(withEmail: credentials.email, password: credentials.password) { [weak self] authResult, error in
+//                guard self != nil else { return }
+//                if let error = error {
+//                    print("ログインに失敗", error.localizedDescription)
+//                }else{
+//                    print("ログインに成功")
+//                    let TimeLine = TimelineViewController()
+//                    self?.navigationController?.pushViewController(TimeLine, animated: true)
+//                }
+//            }
+//        }
+        LoginManager.shared.login(email: credentials?.email ?? "", password: credentials?.password ?? "") { result in
+                   switch result {
+                   case .success(let user):
+                       print("ログイン成功: \(user.uid)")
+                       let TimeLine = TimelineViewController()
+                       self.navigationController?.pushViewController(TimeLine, animated: true)
+                   case .failure(let error):
+                       print("ログインに失敗", error.localizedDescription)
+                   }
+       }
     }
 }
 

@@ -29,7 +29,7 @@ class AddPostViewController: UIViewController {
         view.backgroundColor = .white
     }
     func getUserdata(){
-        if Auth.auth().currentUser != nil {
+        if LoginManager.shared.isLoggedIn {
             let uid = Auth.auth().currentUser?.uid
             let userRef = db.collection("Users").document(uid!)
             userRef.getDocument { (document, error) in
@@ -37,13 +37,12 @@ class AddPostViewController: UIViewController {
                     let data = document.data()
                     self.displayName = data?["displayName"] as? String
                     self.officialaccount = data?["official"] as? Bool
-                } else {
+                }else{
                     print("データがありません")
                 }
             }
         }else{
-            //ログインしてない場合データを取得せずにアカウント作成画面に移動する
-            print("未ログイン")
+            print("ログインしてません")
             let Createaccount = CreateAccountViewcontroller()
             self.navigationController?.pushViewController(Createaccount, animated: true)
         }
