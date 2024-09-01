@@ -26,7 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         if Auth.auth().currentUser != nil {
-            print("ログイン")
+            print("ログインしてるよ！")
             loginFlag = true
         }else{
             print("未ログイン")

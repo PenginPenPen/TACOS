@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-
+import CoreMotion
 protocol CustomHeaderViewDelegate: AnyObject {
     func headerViewDidTapButton(_ headerView: CustomHeaderView)
 }
@@ -38,17 +38,23 @@ class CustomHeaderView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "ヘッダーだよ"
+        let tracker = StepCounterActivityTracker()
+
+        tracker.startTracking(
+            stepsHandler: { steps in
+                print("Number of Steps: \(steps)")
+                label.text = ("TACOSコイン:\(steps*10)")
+            },
+            activityHandler: { activity in
+                print("Current Activity: \(activity)")
+            }
+        )
         label.font = UIFont.boldSystemFont(ofSize: 24)
         label.textColor = .white
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    private func getSteps(){
-        
-    }
-    
     private let iconButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "sample"), for: .normal)
