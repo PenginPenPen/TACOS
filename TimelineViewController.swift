@@ -10,7 +10,7 @@ import Firebase
 import FirebaseFirestore
 class TimelineViewController: UIViewController {
     var db = Firestore.firestore()
-    var  defaultText="デフォwwww"
+    var  defaultText=""
     let df = DateFormatter()
     private let scrollView = UIScrollView()
     private let postStackView = UIStackView()
@@ -63,6 +63,12 @@ class TimelineViewController: UIViewController {
                     //ユーザーの投稿が公式アカウントだった時の処理
                     username = (username ?? "")+":official"
                 }
+
+//                print(coin)
+//                if coin==0{
+//                    print
+//                    break
+//                }
                 
 //                print(date,text,userid,username)
                 let postView = self.createPostView(postText: text ?? self.defaultText,userId:userid ?? self.defaultText,userName:username ?? self.defaultText, date: date ?? Date.now)

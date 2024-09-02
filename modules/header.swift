@@ -5,9 +5,9 @@
 //  Created by 疋田朋也 on 2024/08/27.
 //
 
-import Foundation
 import UIKit
-import CoreMotion
+import FirebaseAuth
+import FirebaseFirestore
 protocol CustomHeaderViewDelegate: AnyObject {
     func headerViewDidTapButton(_ headerView: CustomHeaderView)
 }
@@ -39,14 +39,15 @@ class CustomHeaderView: UIView {
     private let titleLabel: UILabel = {
         let label = UILabel()
         let tracker = StepCounterActivityTracker()
-
+        label.text = "歩数:0"
         tracker.startTracking(
             stepsHandler: { steps in
-                print("Number of Steps: \(steps)")
-                label.text = ("TACOSコイン:\(steps*10)")
+                print("歩数: \(steps)")
+                label.text = ("歩数:\(steps)")
+                SaveCoin(coin: steps)
             },
             activityHandler: { activity in
-                print("Current Activity: \(activity)")
+                print("状態: \(activity)")
             }
         )
         label.font = UIFont.boldSystemFont(ofSize: 24)

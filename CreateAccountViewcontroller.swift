@@ -140,7 +140,8 @@ class CreateAccountViewcontroller: UIViewController {
                     "displayName": user.displayName ?? "名無しさん\(uuid.uuidString)",
                     "userId":user.uid,
                     "photoURL": user.photoURL?.absoluteString ?? "",
-                    "createdAt": FieldValue.serverTimestamp()
+                    "createdAt": FieldValue.serverTimestamp(),
+                    "totalCoin": Int()
                 ]) { err in
                     if let err = err {
                         print("Error writing document: \(err)")

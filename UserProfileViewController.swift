@@ -16,12 +16,14 @@ class UserProfileViewController: UIViewController {
     let df = DateFormatter()
     private let CreatedDate = UILabel()
     private let DisplayName = UILabel()
+    private let TotalCoin = UILabel()
     private let stackView = UIStackView()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         setupView()
         getUserdata()
+        setupStackview()
         setupLabels()
         setupConstraints()
     }
@@ -42,6 +44,7 @@ class UserProfileViewController: UIViewController {
                       self.displayName = data?["displayName"] as? String
                       self.DisplayName.text = self.displayName
                       self.CreatedDate.text = self.df.string(from: self.created_date ?? Date.now)
+                      self.TotalCoin.text = data?["coin"] as? String
                   } else {
                     print("Document does not exist")
                   }
@@ -57,20 +60,23 @@ class UserProfileViewController: UIViewController {
         DisplayName.translatesAutoresizingMaskIntoConstraints = false
         CreatedDate.textColor = .black
         CreatedDate.translatesAutoresizingMaskIntoConstraints = false
+        TotalCoin.textColor = .black
+        TotalCoin.translatesAutoresizingMaskIntoConstraints = false
         stackView.addArrangedSubview(DisplayName)
         stackView.addArrangedSubview(CreatedDate)
+        stackView.addArrangedSubview(TotalCoin)
+        
     }
     private func setupConstraints(){
-
+        NSLayoutConstraint.activate([
+                stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            ])
     }
     private func setupStackview(){
         stackView.axis = .vertical
         view.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo:view.safeAreaLayoutGuide.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-        ])
     }
     /*
     // MARK: - Navigation

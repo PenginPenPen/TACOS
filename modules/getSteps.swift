@@ -29,7 +29,6 @@ class StepCounterActivityTracker {
             }
         }
     }
-    
     private func startPedometerUpdates(handler: @escaping (Int) -> Void) {
         guard CMPedometer.isStepCountingAvailable() else {
             print("このデバイスでは歩数カウントは利用できません")
