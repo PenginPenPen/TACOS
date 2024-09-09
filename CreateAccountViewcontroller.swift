@@ -9,7 +9,7 @@ import UIKit
 import FirebaseCore
 import FirebaseFirestore
 import FirebaseAuth
-class CreateAccountViewcontroller: UIViewController {
+class CreateAccountViewcontroller: UIViewController,UITextFieldDelegate {
     private let formStackView = UIStackView()
     private let createAccountButton = UIButton()
     private let messageLabel = UILabel()
@@ -31,6 +31,17 @@ class CreateAccountViewcontroller: UIViewController {
         setupConstraints()
         setupTransitionLoginButton()
         
+        emailField.delegate = self
+        passwordField.delegate = self
+        
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+
+    @objc func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     private func setupView(){
         //        self.title="アカウント作成画面"
