@@ -33,3 +33,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 var AccentColor_yellow = UIColor(red: 0.98, green: 1.00, blue: 0.25, alpha: 1.0)//黄色
 var AccentColor_gray = UIColor(red: 0.16, green: 0.16, blue: 0.16, alpha: 1.0)
+//var AccentColor_gray = UIColor(red: 0/255, green: 53/255, blue: 102/255, alpha: 1)
+//var AccentColor_gray = UIColor(red: 0x84 / 255.0, green: 0xC0 / 255.0, blue: 0x20 / 255.0, alpha: 1.0)
+
+
+
+
+//let color1 = UIColor(red: 255/255, green: 214/255, blue: 10/255, alpha: 1)  // ffd60a
+//let color2 = UIColor(red: 255/255, green: 195/255, blue: 0/255, alpha: 1)   // ffc300
+//let color3 = UIColor(red: 0/255, green: 53/255, blue: 102/255, alpha: 1)    // 003566
+//let color4 = UIColor(red: 0/255, green: 29/255, blue: 61/255, alpha: 1)     // 001d3d
+//let color5 = UIColor(red: 0/255, green: 8/255, blue: 20/255, alpha: 1)      // 000814
