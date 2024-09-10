@@ -19,6 +19,7 @@ class DebugPageViewController: UIViewController {
     let addprofileButton = UIButton()
     var db = Firestore.firestore()
     private let addPostbutton = UIButton()
+    private let footerView = Footer()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +30,14 @@ class DebugPageViewController: UIViewController {
         setupCustomHeader()
         addButtonsToStackView()
         layoutStackView()
+        view.addSubview(footerView)
+        footerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+                    footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                    footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                    footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 
     private func setupStackView() {

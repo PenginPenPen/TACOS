@@ -16,6 +16,7 @@ class TimelineViewController: UIViewController {
     private let postStackView = UIStackView()
     private let tableView = UITableView()
     private let addPostbutton = UIButton()
+    private let footerView = Footer()
     override func viewDidLoad(){
         super.viewDidLoad()
         setupView()
@@ -28,6 +29,14 @@ class TimelineViewController: UIViewController {
                 let _: () =  await getData()
             }
         }
+        view.addSubview(footerView)
+        footerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+                    footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                    footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                    footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
         // Do any additional setup after loading the view.
     }
     
