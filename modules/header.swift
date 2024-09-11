@@ -38,21 +38,31 @@ class CustomHeaderView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        let tracker = StepCounterActivityTracker()
-        label.text = "歩数:0"
-        tracker.startTracking(
-            stepsHandler: { steps in
-                print("歩数: \(steps)")
-                label.text = ("歩数:\(steps)")
-                SaveCoin(coin: steps)
-            },
-            activityHandler: { activity in
-                print("状態: \(activity)")
+        //ここをモジュール化
+        let db = Firestore.firestore()
+        func getUserdata(){
+            print("データ取得")
+            if LoginManager.shared.isLoggedIn {
+                let uid = Auth.auth().currentUser?.uid
+                let userRef = db.collection("Users").document(uid!)
+                userRef.getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        let data = document.data()
+                        label.text = "コイン:\(data?["coin"] ?? "")"
+                    } else {
+                        print("データがありません。")
+                    }
+                }
+            } else {
+                print("ログインしてません")
             }
-        )
-        label.font = UIFont.boldSystemFont(ofSize: 24)
+        }
+        //ここまで
+        getUserdata()
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = .white
         label.textAlignment = .center
+        label.backgroundColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -81,7 +91,7 @@ class CustomHeaderView: UIView {
         addSubview(iconButton)
         
         NSLayoutConstraint.activate([
-            titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: -40),
+            titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 20),
             titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             
             iconButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),

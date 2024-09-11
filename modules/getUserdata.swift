@@ -16,8 +16,7 @@ func getUserdata(){
         userRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = document.data()
-                data
-                return()
+//                return(data)
             } else {
                 print("データがありません。")
             }

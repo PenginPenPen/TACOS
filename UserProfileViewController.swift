@@ -45,6 +45,7 @@ class UserProfileViewController: UIViewController {
                       self.DisplayName.text = self.displayName
                       self.CreatedDate.text = self.df.string(from: self.created_date ?? Date.now)
                       self.TotalCoin.text = data?["coin"] as? String
+                      print(data?["coin"] ?? "")
                   } else {
                     print("Document does not exist")
                   }
