@@ -8,86 +8,124 @@
 import UIKit
 import Firebase
 import FirebaseFirestore
+import FirebaseAuth
+
 class TimelineViewController: UIViewController {
+    
+    private var posts: [Post] = []
+    private var userCoins: Int = 0
+    
     var db = Firestore.firestore()
-    var  defaultText=""
+    var defaultText = ""
     let df = DateFormatter()
     private let scrollView = UIScrollView()
     private let postStackView = UIStackView()
-    private let tableView = UITableView()
-    private let addPostbutton = UIButton()
+//    private let addPostbutton = UIButton()
     private let footerView = Footer()
-    override func viewDidLoad(){
+    
+    override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         setupCustomHeader()
         setupScrollView()
         setupStackView()
-        setupAddpostButton()
+//        setupAddpostButton()
+        footerView.delegate = self
+        
         Task {
-            do {
-                let _: () =  await getData()
-            }
+            await fetchUserCoinsAndPosts()
         }
+        
         view.addSubview(footerView)
         footerView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-                    footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                    footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                    footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            footerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            footerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            footerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        // Do any additional setup after loading the view.
     }
     
-    private func setupView(){
-        self.title=""
-        view.backgroundColor = AccentColor_gray
-    }
-    private func getData() async {
-        let db = Firestore.firestore()
-        
+    private func fetchUserCoinsAndPosts() async {
         do {
-            // 非同期でドキュメントを取得
+            userCoins = try await fetchUserCoins()
+            await getData()
+            DispatchQueue.main.async {
+                self.updateUI()
+            }
+        } catch {
+            print("Error: \(error.localizedDescription)")
+        }
+    }
+    
+    private func fetchUserCoins() async throws -> Int {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            throw NSError(domain: "Authentication", code: 0, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"])
+        }
+        
+        let document = try await db.collection("Users").document(userId).getDocument()
+        
+        guard let coins = document.data()?["coin"] as? Int else {
+            throw NSError(domain: "Firestore", code: 0, userInfo: [NSLocalizedDescriptionKey: "コインデータがありません"])
+        }
+        
+        return coins
+    }
+    
+    private func getData() async {
+        do {
             let querySnapshot = try await db.collection("Post")
                 .order(by: "date", descending: true)
                 .getDocuments()
             
-            // ドキュメントが存在するか確認
             guard !querySnapshot.documents.isEmpty else {
                 print("データがありません")
-                return // ドキュメントが見つからない場合は処理を中断
+                return
             }
             
+            posts.removeAll()  // Clear existing posts
+            
             for document in querySnapshot.documents {
-                // 各ドキュメントのデータにアクセス
+                userCoins = userCoins - 10
+                SaveCoin(coin: userCoins)
+                if posts.count >= userCoins {
+                    break  // Stop adding posts if we've reached the coin limit
+                }
+                
                 let data = document.data()
                 
-                let date_timestamp = data["date"] as? Timestamp
-                let date =  date_timestamp?.dateValue()
-                let text = data["text"] as? String
-                let userid = data["userId"] as? String
-                var username = data["displayName"] as? String
-                if ((data["official"]) != nil){
-                    //ユーザーの投稿が公式アカウントだった時の処理
-                    username = (username ?? "")+":official"
-                }
-
-//                print(coin)
-//                if coin==0{
-//                    print
-//                    break
-//                }
+                let dateTimestamp = data["date"] as? Timestamp
+                let date = dateTimestamp?.dateValue() ?? Date()
+                let text = data["text"] as? String ?? ""
+                let userId = data["userId"] as? String ?? ""
+                var username = data["displayName"] as? String ?? ""
                 
-//                print(date,text,userid,username)
-                let postView = self.createPostView(postText: text ?? self.defaultText,userId:userid ?? self.defaultText,userName:username ?? self.defaultText, date: date ?? Date.now)
-                self.postStackView.addArrangedSubview(postView)
+                if data["official"] != nil {
+                    username += ":official"
+                }
+                
+                let post = Post(id: document.documentID, text: text, userId: userId, username: username, date: date)
+                posts.append(post)
             }
             
         } catch {
-            // エラーが発生した場合の処理
             print("投稿の取得に失敗しました: \(error.localizedDescription)")
         }
+    }
+    
+    private func updateUI() {
+        // Clear existing views
+        postStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
+        // Add new post views
+        for post in posts {
+            let postView = createPostView(postText: post.text, userId: post.userId, userName: post.username, date: post.date)
+            postStackView.addArrangedSubview(postView)
+        }
+    }
+    private func setupView(){
+        self.title=""
+        view.backgroundColor = AccentColor_gray
     }
               
     private func setupScrollView() {
@@ -114,6 +152,7 @@ class TimelineViewController: UIViewController {
         postStackView.axis = .vertical
         postStackView.distribution = .fillEqually
         postStackView.alignment = .fill
+//        postStackView.r
     }
     private func createPostView(postText: String, userId: String, userName: String, date: Date) -> UIView {
         let postView = UIView()
@@ -181,28 +220,35 @@ class TimelineViewController: UIViewController {
             postTextLabel.topAnchor.constraint(equalTo: postTimeLabel.bottomAnchor, constant: 10),
             postTextLabel.leadingAnchor.constraint(equalTo: postView.leadingAnchor, constant: 15),
             postTextLabel.trailingAnchor.constraint(equalTo: postView.trailingAnchor, constant: -15),
-            addPostbutton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            addPostbutton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+//            addPostbutton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+//            addPostbutton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
         ])
         
         
         return postView
     }
-    private func setupAddpostButton(){
-        let image = UIImage(systemName: "plus.bubble")?.withTintColor(.black)
-        addPostbutton.setImage(image, for: .normal)
-        addPostbutton.backgroundColor = AccentColor_yellow
-        addPostbutton.setTitleColor(.black, for: .normal)
-        addPostbutton.layer.cornerRadius = 10
-        addPostbutton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        addPostbutton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(addPostbutton)
-        addPostbutton.addTarget(self, action: #selector(AddPostButtonTapped), for: .touchUpInside)
-    }
+//    private func setupAddpostButton(){
+//        let image = UIImage(systemName: "plus.bubble")?.withTintColor(.black)
+//        addPostbutton.setImage(image, for: .normal)
+//        addPostbutton.backgroundColor = AccentColor_yellow
+//        addPostbutton.setTitleColor(.black, for: .normal)
+//        addPostbutton.layer.cornerRadius = 10
+//        addPostbutton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+//        addPostbutton.translatesAutoresizingMaskIntoConstraints = false
+//        view.addSubview(addPostbutton)
+//        addPostbutton.addTarget(self, action: #selector(AddPostButtonTapped), for: .touchUpInside)
+//    }
     @objc func AddPostButtonTapped(){
         let AddPost = AddPostViewController()
         self.navigationController?.pushViewController(AddPost, animated: true)
     }
+}
+struct Post {
+    let id: String
+    let text: String
+    let userId: String
+    let username: String
+    let date: Date
 }
 #Preview(){
     TimelineViewController()

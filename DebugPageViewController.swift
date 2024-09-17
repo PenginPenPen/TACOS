@@ -30,6 +30,7 @@ class DebugPageViewController: UIViewController {
         setupCustomHeader()
         addButtonsToStackView()
         layoutStackView()
+        footerView.delegate = self
         view.addSubview(footerView)
         footerView.translatesAutoresizingMaskIntoConstraints = false
         
