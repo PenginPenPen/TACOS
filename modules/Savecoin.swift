@@ -13,8 +13,8 @@ func SaveCoin(coin:Int){
     _ = Auth.auth().addStateDidChangeListener { (auth, user) in
         if let user = user {
             let userRef = db.collection("Users").document(user.uid)
-            userRef.setData([
-                "totalCoin":coin
+            userRef.updateData([
+                "coin":coin
             ]) { err in
                 if let err = err {
                     print("Error: \(err)")
