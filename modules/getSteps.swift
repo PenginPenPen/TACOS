@@ -25,6 +25,7 @@ class StepCounterActivityTracker {
                     handler("Walk")
                 } else {
                     handler("不明")
+//                    SaveCoin(coin: <#T##Int#>)
                 }
             }
         }

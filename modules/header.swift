@@ -62,13 +62,13 @@ class CustomHeaderView: UIView {
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = .white
         label.textAlignment = .center
-        label.backgroundColor = .gray
+//        label.backgroundColor = 
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     private let iconButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "sample"), for: .normal)
+        button.setImage(UIImage(named: "defaultUserIcon"), for: .normal)
         button.layer.cornerRadius = 10
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
